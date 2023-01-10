@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Model {
+  String get name => throw _privateConstructorUsedError;
   List<ModelElement> get elements => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -27,7 +28,7 @@ abstract class $ModelCopyWith<$Res> {
   factory $ModelCopyWith(Model value, $Res Function(Model) then) =
       _$ModelCopyWithImpl<$Res, Model>;
   @useResult
-  $Res call({List<ModelElement> elements});
+  $Res call({String name, List<ModelElement> elements});
 }
 
 /// @nodoc
@@ -43,9 +44,14 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = null,
     Object? elements = null,
   }) {
     return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       elements: null == elements
           ? _value.elements
           : elements // ignore: cast_nullable_to_non_nullable
@@ -60,7 +66,7 @@ abstract class _$$_ModelCopyWith<$Res> implements $ModelCopyWith<$Res> {
       __$$_ModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<ModelElement> elements});
+  $Res call({String name, List<ModelElement> elements});
 }
 
 /// @nodoc
@@ -72,9 +78,14 @@ class __$$_ModelCopyWithImpl<$Res> extends _$ModelCopyWithImpl<$Res, _$_Model>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = null,
     Object? elements = null,
   }) {
     return _then(_$_Model(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       elements: null == elements
           ? _value._elements
           : elements // ignore: cast_nullable_to_non_nullable
@@ -86,9 +97,12 @@ class __$$_ModelCopyWithImpl<$Res> extends _$ModelCopyWithImpl<$Res, _$_Model>
 /// @nodoc
 
 class _$_Model implements _Model {
-  const _$_Model({required final List<ModelElement> elements})
+  const _$_Model(
+      {required this.name, required final List<ModelElement> elements})
       : _elements = elements;
 
+  @override
+  final String name;
   final List<ModelElement> _elements;
   @override
   List<ModelElement> get elements {
@@ -99,7 +113,7 @@ class _$_Model implements _Model {
 
   @override
   String toString() {
-    return 'Model(elements: $elements)';
+    return 'Model(name: $name, elements: $elements)';
   }
 
   @override
@@ -107,12 +121,13 @@ class _$_Model implements _Model {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Model &&
+            (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._elements, _elements));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_elements));
+  int get hashCode => Object.hash(
+      runtimeType, name, const DeepCollectionEquality().hash(_elements));
 
   @JsonKey(ignore: true)
   @override
@@ -122,8 +137,12 @@ class _$_Model implements _Model {
 }
 
 abstract class _Model implements Model {
-  const factory _Model({required final List<ModelElement> elements}) = _$_Model;
+  const factory _Model(
+      {required final String name,
+      required final List<ModelElement> elements}) = _$_Model;
 
+  @override
+  String get name;
   @override
   List<ModelElement> get elements;
   @override

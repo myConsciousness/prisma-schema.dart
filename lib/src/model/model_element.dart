@@ -12,10 +12,15 @@ part 'model_element.freezed.dart';
 
 @freezed
 class ModelElement with _$ModelElement {
+  // ignore: unused_element
+  const ModelElement._();
+
   const factory ModelElement({
     required String name,
     required String type,
-    required bool isNullable,
     List<ModelElementOption>? options,
   }) = _ModelElement;
+
+  /// Returns true if this element is nullable, otherwise false.
+  bool get isNullable => type.endsWith('?');
 }

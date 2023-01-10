@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Enum {
+  String get name => throw _privateConstructorUsedError;
   List<EnumElement> get elements => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -27,7 +28,7 @@ abstract class $EnumCopyWith<$Res> {
   factory $EnumCopyWith(Enum value, $Res Function(Enum) then) =
       _$EnumCopyWithImpl<$Res, Enum>;
   @useResult
-  $Res call({List<EnumElement> elements});
+  $Res call({String name, List<EnumElement> elements});
 }
 
 /// @nodoc
@@ -43,9 +44,14 @@ class _$EnumCopyWithImpl<$Res, $Val extends Enum>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = null,
     Object? elements = null,
   }) {
     return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       elements: null == elements
           ? _value.elements
           : elements // ignore: cast_nullable_to_non_nullable
@@ -60,7 +66,7 @@ abstract class _$$_EnumCopyWith<$Res> implements $EnumCopyWith<$Res> {
       __$$_EnumCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<EnumElement> elements});
+  $Res call({String name, List<EnumElement> elements});
 }
 
 /// @nodoc
@@ -72,9 +78,14 @@ class __$$_EnumCopyWithImpl<$Res> extends _$EnumCopyWithImpl<$Res, _$_Enum>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = null,
     Object? elements = null,
   }) {
     return _then(_$_Enum(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       elements: null == elements
           ? _value._elements
           : elements // ignore: cast_nullable_to_non_nullable
@@ -86,9 +97,11 @@ class __$$_EnumCopyWithImpl<$Res> extends _$EnumCopyWithImpl<$Res, _$_Enum>
 /// @nodoc
 
 class _$_Enum implements _Enum {
-  const _$_Enum({required final List<EnumElement> elements})
+  const _$_Enum({required this.name, required final List<EnumElement> elements})
       : _elements = elements;
 
+  @override
+  final String name;
   final List<EnumElement> _elements;
   @override
   List<EnumElement> get elements {
@@ -99,7 +112,7 @@ class _$_Enum implements _Enum {
 
   @override
   String toString() {
-    return 'Enum(elements: $elements)';
+    return 'Enum(name: $name, elements: $elements)';
   }
 
   @override
@@ -107,12 +120,13 @@ class _$_Enum implements _Enum {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Enum &&
+            (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._elements, _elements));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_elements));
+  int get hashCode => Object.hash(
+      runtimeType, name, const DeepCollectionEquality().hash(_elements));
 
   @JsonKey(ignore: true)
   @override
@@ -122,8 +136,12 @@ class _$_Enum implements _Enum {
 }
 
 abstract class _Enum implements Enum {
-  const factory _Enum({required final List<EnumElement> elements}) = _$_Enum;
+  const factory _Enum(
+      {required final String name,
+      required final List<EnumElement> elements}) = _$_Enum;
 
+  @override
+  String get name;
   @override
   List<EnumElement> get elements;
   @override

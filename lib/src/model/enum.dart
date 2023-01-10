@@ -13,6 +13,7 @@ part 'enum.freezed.dart';
 @freezed
 class Enum with _$Enum {
   const factory Enum({
+    required String name,
     required List<EnumElement> elements,
   }) = _Enum;
 }

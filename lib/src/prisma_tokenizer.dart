@@ -5,8 +5,10 @@
 // 🌎 Project imports:
 import 'model/data_source.dart';
 import 'model/enum.dart';
+import 'model/enum_element.dart';
 import 'model/generator.dart';
 import 'model/model.dart';
+import 'model/model_element.dart';
 import 'prisma_modifier.dart';
 
 abstract class PrismaTokenizer {
@@ -80,9 +82,9 @@ class _PrismaTokenizer implements PrismaTokenizer {
     final dataSourceObject = _nextObject(PrismaModifier.datasource);
 
     return DataSource(
-      name: dataSourceObject.first,
-      provider: '',
-      url: '',
+      name: dataSourceObject.first[1],
+      provider: dataSourceObject[1][2].split('"')[1],
+      url: dataSourceObject[2][2],
     );
   }
 
@@ -93,8 +95,8 @@ class _PrismaTokenizer implements PrismaTokenizer {
     );
 
     return Generator(
-      name: '',
-      provider: '',
+      name: generatorObject.first[1],
+      provider: generatorObject[1][2].split('"')[1],
     );
   }
 
@@ -104,19 +106,56 @@ class _PrismaTokenizer implements PrismaTokenizer {
       _lastIndexModel,
     );
 
-    return Model(elements: []);
+    final modelElements = <ModelElement>[];
+    for (int i = 0; i < modelObject.length; i++) {
+      final modelElement = modelObject[i];
+
+      if (_isNotRecord(modelElement.last)) {
+        continue;
+      }
+
+      modelElements.add(
+        ModelElement(
+          name: modelElement[0],
+          type: modelElement[1],
+        ),
+      );
+    }
+
+    return Model(
+      name: modelObject.first[1],
+      elements: modelElements,
+    );
   }
 
   Enum get _enumeration {
-    final enumerationObject = _nextObject(
+    final enumObject = _nextObject(
       PrismaModifier.enumeration,
       _lastIndexEnum,
     );
 
-    return Enum(elements: []);
+    final enumElements = <EnumElement>[];
+    for (int i = 0; i < enumObject.length; i++) {
+      final enumElement = enumObject[i];
+
+      if (_isNotRecord(enumElement.last)) {
+        continue;
+      }
+
+      enumElements.add(
+        EnumElement(
+          name: enumElement[0],
+        ),
+      );
+    }
+
+    return Enum(
+      name: enumObject.first[1],
+      elements: enumElements,
+    );
   }
 
-  List<String> _nextObject(
+  List<List<String>> _nextObject(
     final PrismaModifier modifier, [
     final int start = 0,
   ]) {
@@ -126,6 +165,14 @@ class _PrismaTokenizer implements PrismaTokenizer {
       if (line.startsWith(modifier.value) && line.endsWith('{')) {
         _updateLastIndex(modifier, $start + 1);
 
+        //! [model, User, {]
+        //! [id, Int, @id, @default(autoincrement())]
+        //! [createdAt, DateTime, @default(now())]
+        //! [email, String, @unique]
+        //! [name, String?]
+        //! [role, Role, @default(USER)]
+        //! [posts, Post[]]
+        //! [}]
         return _sourceLines
             .getRange(
               $start,
@@ -136,6 +183,11 @@ class _PrismaTokenizer implements PrismaTokenizer {
                   1,
             )
             .map((e) => e.trim())
+            .toList()
+            .map((element) => element
+                .split(' ')
+                .where((element) => element.isNotEmpty)
+                .toList())
             .toList();
       }
     }
@@ -178,4 +230,6 @@ class _PrismaTokenizer implements PrismaTokenizer {
 
     return false;
   }
+
+  bool _isNotRecord(final String token) => token == '{' || token == '}';
 }

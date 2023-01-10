@@ -13,6 +13,7 @@ part 'model.freezed.dart';
 @freezed
 class Model with _$Model {
   const factory Model({
+    required String name,
     required List<ModelElement> elements,
   }) = _Model;
 }

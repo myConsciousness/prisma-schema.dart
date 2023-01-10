@@ -52,7 +52,7 @@ List<Model> _getModels(final PrismaTokenizer tokenizer) {
 List<Enum> _getEnumerations(final PrismaTokenizer tokenizer) {
   final enumerations = <Enum>[];
 
-  while (tokenizer.hasNextGenerator) {
+  while (tokenizer.hasNextEnum) {
     enumerations.add(tokenizer.nextEnum);
   }
 

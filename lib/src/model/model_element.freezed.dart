@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ModelElement {
   String get name => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
-  bool get isNullable => throw _privateConstructorUsedError;
   List<ModelElementOption>? get options => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -32,11 +31,7 @@ abstract class $ModelElementCopyWith<$Res> {
           ModelElement value, $Res Function(ModelElement) then) =
       _$ModelElementCopyWithImpl<$Res, ModelElement>;
   @useResult
-  $Res call(
-      {String name,
-      String type,
-      bool isNullable,
-      List<ModelElementOption>? options});
+  $Res call({String name, String type, List<ModelElementOption>? options});
 }
 
 /// @nodoc
@@ -54,7 +49,6 @@ class _$ModelElementCopyWithImpl<$Res, $Val extends ModelElement>
   $Res call({
     Object? name = null,
     Object? type = null,
-    Object? isNullable = null,
     Object? options = freezed,
   }) {
     return _then(_value.copyWith(
@@ -66,10 +60,6 @@ class _$ModelElementCopyWithImpl<$Res, $Val extends ModelElement>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      isNullable: null == isNullable
-          ? _value.isNullable
-          : isNullable // ignore: cast_nullable_to_non_nullable
-              as bool,
       options: freezed == options
           ? _value.options
           : options // ignore: cast_nullable_to_non_nullable
@@ -86,11 +76,7 @@ abstract class _$$_ModelElementCopyWith<$Res>
       __$$_ModelElementCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String name,
-      String type,
-      bool isNullable,
-      List<ModelElementOption>? options});
+  $Res call({String name, String type, List<ModelElementOption>? options});
 }
 
 /// @nodoc
@@ -106,7 +92,6 @@ class __$$_ModelElementCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? type = null,
-    Object? isNullable = null,
     Object? options = freezed,
   }) {
     return _then(_$_ModelElement(
@@ -118,10 +103,6 @@ class __$$_ModelElementCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      isNullable: null == isNullable
-          ? _value.isNullable
-          : isNullable // ignore: cast_nullable_to_non_nullable
-              as bool,
       options: freezed == options
           ? _value._options
           : options // ignore: cast_nullable_to_non_nullable
@@ -132,20 +113,18 @@ class __$$_ModelElementCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ModelElement implements _ModelElement {
+class _$_ModelElement extends _ModelElement {
   const _$_ModelElement(
       {required this.name,
       required this.type,
-      required this.isNullable,
       final List<ModelElementOption>? options})
-      : _options = options;
+      : _options = options,
+        super._();
 
   @override
   final String name;
   @override
   final String type;
-  @override
-  final bool isNullable;
   final List<ModelElementOption>? _options;
   @override
   List<ModelElementOption>? get options {
@@ -158,7 +137,7 @@ class _$_ModelElement implements _ModelElement {
 
   @override
   String toString() {
-    return 'ModelElement(name: $name, type: $type, isNullable: $isNullable, options: $options)';
+    return 'ModelElement(name: $name, type: $type, options: $options)';
   }
 
   @override
@@ -168,14 +147,12 @@ class _$_ModelElement implements _ModelElement {
             other is _$_ModelElement &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.isNullable, isNullable) ||
-                other.isNullable == isNullable) &&
             const DeepCollectionEquality().equals(other._options, _options));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, type, isNullable,
-      const DeepCollectionEquality().hash(_options));
+  int get hashCode => Object.hash(
+      runtimeType, name, type, const DeepCollectionEquality().hash(_options));
 
   @JsonKey(ignore: true)
   @override
@@ -184,19 +161,17 @@ class _$_ModelElement implements _ModelElement {
       __$$_ModelElementCopyWithImpl<_$_ModelElement>(this, _$identity);
 }
 
-abstract class _ModelElement implements ModelElement {
+abstract class _ModelElement extends ModelElement {
   const factory _ModelElement(
       {required final String name,
       required final String type,
-      required final bool isNullable,
       final List<ModelElementOption>? options}) = _$_ModelElement;
+  const _ModelElement._() : super._();
 
   @override
   String get name;
   @override
   String get type;
-  @override
-  bool get isNullable;
   @override
   List<ModelElementOption>? get options;
   @override
